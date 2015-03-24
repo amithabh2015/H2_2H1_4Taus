@@ -1,0 +1,176 @@
+	#define HiggsAnalysis_cxx
+	#include "HiggsAnalysis.h"
+	
+	#include <TH2.h>
+	#include <TStyle.h>
+	#include <TCanvas.h>
+	#include <cmath>
+	#include <fstream>
+	#include <sstream>
+	#include <iostream>
+	#include <iomanip>
+	#include <algorithm>
+	#include <functional>
+	#include <list>
+	#include <numeric>
+	#include <utility>
+	#include <vector>
+	#include <TDirectory>
+	using namespace std;
+
+ gStyle->SetOptStat(00000);
+	void HiggsAnalysis::Loop()
+	{
+	
+	if (fChain == 0) return;
+	
+	
+
+	TString dir =
+		gSystem->UnixPathName(gInterpreter->GetCurrentMacroName());
+		dir.ReplaceAll("HiggsAnalysis.C", "");
+		dir.ReplaceAll("/./", "/"); 
+	TTree *HqT_Tree = new TTree("Hpt_NLO", "Higgs Pt NLO");
+	HqT_Tree->ReadFile(Form("%sscale_INPUTFILE_binINPUTBIN", dir.Data()), "BinCenter:PtSpectrum");
+		
+	Float_t kFactor; //this will hold the Htq values
+		
+	Double_t kfactor[1000], weights[1000]; //like above
+		
+	
+	HqT_Tree->SetBranchAddress("PtSpectrum", &kFactor);
+	
+	
+	
+	TCanvas *c1;
+	c1 = new TCanvas("c1", "Plots", 800, 800);
+	c1->Divide(2,2);
+	
+	//Get entries for open Ttrees
+	Int_t nentries = Int_t(fChain->GetEntries());
+		
+	Int_t kentries = HqT_Tree->GetEntriesFast();
+	float xmax = kentries*INPUTBIN; //assuming that the text files are binned / 2GeV
+	int nbins = xmax/INPUTBIN;
+	
+	TH1F *PythiaPtSpectrumHisto  = new TH1F("PythiaPtSpectrumHisto","H_{2} P_{T} Pythia", nbins, 0,xmax);
+	TH1F *HqTHisto  = new TH1F("HqTHisto","HTq_P_{T}", nbins, 0,xmax);
+	TH1F *Weights = new TH1F("Weights","Weights", nbins, 0,xmax);
+	TH1F *RewgtPt = new TH1F("RewgtPt","Reweight Pt Spectrum", nbins, 0,xmax);
+	
+	
+		cout<<" there are entries/bins on the Pt spectrum "<<nentries<<"  entries/bins on the HqT spectrum "<<kentries<<endl;
+
+		//get the values from HTq and fill a new histogram
+	for (Int_t j=0; j<kentries;j++) {
+		HqT_Tree->GetEntry(j);
+		if (kFactor<0) kFactor=1;
+	kfactor[j] = kFactor;
+	HqTHisto->SetBinContent(j+1,kfactor[j]);  //be carefull! Bins starting from 0--underflow bin
+	//cout<<" kFactors === bin "<<j<<" entry  "<<kfactor[j]<<"  "<<kFactor<<"  "<<HqTHisto->GetBinLowEdge(j+1)<<endl;
+	
+	}
+	
+	
+	for (Int_t jentry=0; jentry<nentries;jentry++) {
+	fChain->GetEntry(jentry);
+		PythiaPtSpectrumHisto ->Fill(H2pt);
+	//cout<<" Filling the Original Pythia Spectrum "<<H2pt<<"   "<<jentry<<"  "<<nentries<<endl;
+	
+	}
+	
+	TH1F *RwgtOriginal=(TH1F*)PythiaPtSpectrumHisto->Clone();
+	TH1F *CopyOriginal=(TH1F*)PythiaPtSpectrumHisto->Clone();
+
+	//TH1F *HqTHisto=(TH1F*)PythiaPtSpectrumHisto->Clone();
+	//Normalize Histograms
+	PythiaPtSpectrumHisto->Scale(1/PythiaPtSpectrumHisto->Integral());
+	//RwgtOriginal->Scale(1/(RwgtOriginal->Integral()));
+	HqTHisto->Scale(1/HqTHisto->Integral());
+	
+	c1->cd(1);
+	
+	PythiaPtSpectrumHisto->SetStats(0000);
+	PythiaPtSpectrumHisto->GetXaxis()->SetTitle("P_{T} (GeV)");
+	PythiaPtSpectrumHisto->GetYaxis()->SetTitle("n.a.u.");
+	PythiaPtSpectrumHisto->Draw();
+	
+	c1->cd(2);
+	HqTHisto->SetStats(0000);
+	HqTHisto->GetXaxis()->SetTitle("P_{T} (GeV)");
+	HqTHisto->GetYaxis()->SetTitle("n.a.u.");
+	HqTHisto->Draw();
+	
+	cout<<" Now will derive the weight "<<endl;
+	float sum, summ;
+	for (unsigned int bin=1;bin<=PythiaPtSpectrumHisto->GetNbinsX();bin++){
+	
+	sum+=PythiaPtSpectrumHisto->GetBinContent(bin);
+	summ+=RwgtOriginal->GetBinContent(bin);
+	float reweight_ = float(HqTHisto->GetBinContent(bin) / PythiaPtSpectrumHisto->GetBinContent(bin)) ;
+	weights[bin-1] = reweight_;
+	Weights->SetBinContent(bin,reweight_);
+	float value_ = PythiaPtSpectrumHisto->GetBinContent(bin);
+	
+	cout<<" The weights are  "<<bin<<"  Pythia value "<<PythiaPtSpectrumHisto->GetBinContent(bin)<<" HqT value "<<HqTHisto->GetBinContent(bin)<<"  weight  "<<reweight_<<endl;
+	//cout<<" Pythia Pt "<<PythiaPtSpectrumHisto->GetBinContent(bin)<<" Pythia Pt Bin center "<<PythiaPtSpectrumHisto->GetBinCenter(bin)<<" HTq  "<<HqTHisto->GetBinContent(bin)<<" HTq bin center  "<<HqTHisto->GetBinCenter(bin)<<" weight "<<reweight_<<" "<<HqTHisto->GetBinContent(bin) / PythiaPtSpectrumHisto->GetBinContent(bin)<<endl;
+	
+	}
+	c1->cd(3);
+	Weights->SetStats(0000);
+	Weights->GetXaxis()->SetTitle("P_{T} (GeV)");
+	Weights->GetYaxis()->SetTitle("a.u.");
+	Weights->Draw();
+			
+	
+	for (unsigned m=0;m<nentries;m++){
+		fChain->GetEntry(m);
+		int FBin = PythiaPtSpectrumHisto->FindBin(H2pt);
+		float wgt = 1;
+		wgt = weights[FBin];
+		if (FBin > nbins) wgt = 1;
+		RewgtPt->Fill(H2pt,wgt);
+	//	cout<<" Bin "<<PythiaPtSpectrumHisto->FindBin(H2pt)<<" value "<<H2pt<<"  "<<wgt<<"  total Bins "<<PythiaPtSpectrumHisto->GetNbinsX()<<endl;
+	}
+	
+	
+	
+	c1->cd(4);
+	RewgtPt->SetLineColor(kRed);
+	RewgtPt->SetStats(0000);
+	RewgtPt->GetXaxis()->SetTitle("P_{T} (GeV)");
+	RewgtPt->GetYaxis()->SetTitle("a.u.");
+	RewgtPt->Draw();
+	RwgtOriginal->SetStats(0000);
+	RwgtOriginal->Draw("same");
+	gPad->BuildLegend();
+	TH1F *test=(TH1F*)RwgtOriginal->Clone();
+	
+	test->Scale(1/RwgtOriginal->GetSumOfWeights());
+	
+	
+	cout<<"  Sum of weights of reweighted  "<<RwgtOriginal->GetSumOfWeights()<<" Original Entries "<<CopyOriginal->GetEntries()<<" Reweights Scaled with SumOfWeights  "<<test->GetEntries()<<endl;
+	
+	TFile *fin = new TFile("HPt_Spectrum.root", "UPDATE");
+	 if (fin->IsZombie()) { fin = TFile::Open ("HPt_Spectrum.root", "RECREATE");
+
+	} 
+	fin->ls();
+	fin->cd();
+	fin->mkdir("scale_INPUTFILE_stepINPUTBIN");
+	fin->ls();
+	fin->cd("scale_INPUTFILE_stepINPUTBIN");
+	RewgtPt->Write();
+	RwgtOriginal->Write();
+	Weights->Write();
+	HqT_Tree->Write();
+	c1->SetTitle("Scale_INPUTFILE");
+        c1->SetName("Scale_INPUTFILE");
+        c1->Write();
+        fin->Write();
+	fin->Close();
+	
+	
+	}
+	
+	

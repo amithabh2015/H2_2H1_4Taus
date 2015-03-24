@@ -1,0 +1,30 @@
+imax 1   number of channels
+jmax *   number of backgrounds
+kmax *   number of nuisance parameters
+-----------------
+observation 873
+-----------------
+shapes * * Signal_mH1_8_New_inputs.root  $PROCESS    $PROCESS_$SYSTEMATIC 
+-----------------
+bin     H2to2H1  H2to2H1  
+process     sig     bkgd  
+process       0        1  
+rate    6.16713      873
+-----------------
+lumi            lnN    1.026    -  
+sig_accept_4tau lnN    1.033    -  
+CMS_eff_m       lnN    1.040    -  
+CMS_eff_trk     lnN    1.080    -  
+CMS_BkgNorm     lnU      -     2.0 
+QCDShape      shape      -     1.0 
+BkgBin1       shape      -     1.0
+BkgBin2       shape      -     1.0
+BkgBin3       shape      -     1.0
+BkgBin4       shape      -     1.0
+BkgBin5       shape      -     1.0
+BkgBin6       shape      -     1.0
+BkgBin7       shape      -     1.0
+BkgBin8       shape      -     1.0
+BkgBin9       shape      -     1.0
+BkgBin10      shape      -     1.0
+

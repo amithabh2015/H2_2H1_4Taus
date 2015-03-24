@@ -1,0 +1,33 @@
+imax 1   number of channels
+jmax *   number of backgrounds
+kmax *   number of nuisance parameters
+-----------------
+observation 920
+-----------------
+shapes * * Signal_mH1_8_NoPUIP_inputs.root  $PROCESS    $PROCESS_$SYSTEMATIC 
+-----------------
+bin     H2to2H1  H2to2H1  
+process     sig     bkgd  
+process       0        1  
+rate    6.54836      940
+-----------------
+lumi            lnN    1.026    -  
+CMS_eff_m       lnN    1.040    -  
+CMS_eff_trk     lnN    1.030    -  
+CMS_BkgNorm     lnN      -     1.2 
+BkgBin1       shape      -     1.0
+BkgBin2       shape      -     1.0
+BkgBin3       shape      -     1.0
+BkgBin4       shape      -     1.0
+BkgBin5       shape      -     1.0
+BkgBin6       shape      -     1.0
+BkgBin7       shape      -     1.0
+BkgBin8       shape      -     1.0
+BkgBin9       shape      -     1.0
+BkgBin10      shape      -     1.0
+BkgBin11      shape      -     1.0
+BkgBin12      shape      -     1.0
+BkgBin13      shape      -     1.0
+BkgBin14      shape      -     1.0
+BkgBin15      shape      -     1.0
+
