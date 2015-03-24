@@ -1,0 +1,23 @@
+#include "DesyHTauTau/TauTauSkimming/interface/HTauTauGetElectrons.h"
+
+HTauTauGetElectrons::HTauTauGetElectrons(edm::InputTag tag) 
+{
+  _elecColName = tag;
+}
+HTauTauGetElectrons::~HTauTauGetElectrons() {}
+void HTauTauGetElectrons::getElectrons(const edm::Event& iEvent, patElectronVector & output) {
+  
+  using namespace edm;
+  using namespace pat;
+
+  output.clear();
+
+  Handle<ElectronCollection> electronHandle;
+  iEvent.getByLabel(_elecColName,electronHandle);
+  
+  for (unsigned int j=0;j<electronHandle->size();j++) {
+    ElectronRef thisElecRef(electronHandle,j);
+    output.push_back(thisElecRef);
+  }
+
+}

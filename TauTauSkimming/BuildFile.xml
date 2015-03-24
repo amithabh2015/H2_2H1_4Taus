@@ -1,0 +1,29 @@
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/PluginManager"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="DataFormats/VertexReco"/>
+<use   name="DataFormats/Math"/>
+<use   name="DataFormats/TrackReco"/>
+<use   name="DataFormats/GsfTrackReco"/>
+<use   name="DataFormats/Common"/>
+<use   name="DataFormats/GeometryVector"/>
+<use   name="DataFormats/RecoCandidate"/>
+<use   name="TrackingTools/TransientTrack"/>
+<use   name="RecoBTag/BTagTools"/>
+<use   name="DataFormats/TauReco"/>
+<use   name="DataFormats/HepMCCandidate"/>
+<use   name="DataFormats/EgammaCandidates"/>
+<use   name="DataFormats/ParticleFlowCandidate"/>
+<use   name="DataFormats/PatCandidates"/>
+<use   name="DataFormats/EcalDetId"/>
+<use   name="TauAnalysis/CandidateTools"/>
+<use   name="root"/>
+<use   name="rootmath"/>
+<use   name="HLTrigger/HLTcore"/>
+<use   name="EGamma/EGammaAnalysisTools"/>
+<use   name="HiggsAnalysis/HiggsToWW2Leptons"/>
+<use   name="boost" />
+<export>
+  <lib   name="1"/>
+</export>
