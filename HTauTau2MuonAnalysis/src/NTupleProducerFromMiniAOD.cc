@@ -116,30 +116,120 @@ void NTupleProducerFromMiniAOD::beginJob(){
   tree->Branch("beamspot_zsigma", &beamspot_zsigma, "beamspot_zsigma/F");
   tree->Branch("beamspot_cov", &beamspot_cov, "beamspot_cov[6]/F");
 
-  // tracks (to be added)
-  //tree->Branch("track_count", &track_count, "track_count/i"); 
-  //tree->Branch("track_px", track_px, "track_px[track_count]/F");
-  //tree->Branch("track_py", track_py, "track_py[track_count]/F");
-  //tree->Branch("track_pz", track_pz, "track_pz[track_count]/F");
-  //tree->Branch("track_outerx", track_outerx, "track_outerx[track_count]/F");
-  //tree->Branch("track_outery", track_outery, "track_outery[track_count]/F");
-  //tree->Branch("track_outerz", track_outerz, "track_outerz[track_count]/F");
-  //tree->Branch("track_closestpointx", track_closestpointx, "track_closestpointx[track_count]/F");
-  //tree->Branch("track_closestpointy", track_closestpointy, "track_closestpointy[track_count]/F");
-  //tree->Branch("track_closestpointz", track_closestpointz, "track_closestpointz[track_count]/F");
-  //tree->Branch("track_chi2", track_chi2, "track_chi2[track_count]/F");
-  //tree->Branch("track_ndof", track_ndof, "track_ndof[track_count]/F");
-  //tree->Branch("track_dxy", track_dxy, "track_dxy[track_count]/F");
-  //tree->Branch("track_dxyerr", track_dxyerr, "track_dxyerr[track_count]/F");
-  //tree->Branch("track_dz", track_dz, "track_dz[track_count]/F");
-  //tree->Branch("track_dzerr", track_dzerr, "track_dzerr[track_count]/F");
-  //tree->Branch("track_dedxharmonic2", track_dedxharmonic2, "track_dedxharmonic2[track_count]/F");
-  //tree->Branch("track_charge", track_charge, "track_charge[track_count]/I");
-  //tree->Branch("track_nhits", track_nhits, "track_nhits[track_count]/b");
-  //tree->Branch("track_npixelhits", track_npixelhits, "track_npixelhits[track_count]/b");
-  //tree->Branch("track_nmissinghits", track_nmissinghits, "track_nmissinghits[track_count]/b");
-  //tree->Branch("track_npixellayers", track_npixellayers, "track_npixellayers[track_count]/b");
-  //tree->Branch("track_nstriplayers", track_nstriplayers, "track_nstriplayers[track_count]/b");
+  // tracks (added)
+  tree->Branch("track_count", &track_count, "track_count/i"); 
+  tree->Branch("track_px", track_px, "track_px[track_count]/F");
+  tree->Branch("track_py", track_py, "track_py[track_count]/F");
+  tree->Branch("track_pz", track_pz, "track_pz[track_count]/F");
+  tree->Branch("track_pt", track_pt, "track_pt[track_count]/F");
+  tree->Branch("track_eta", track_eta, "track_eta[track_count]/F");
+  tree->Branch("track_phi", track_phi, "track_phi[track_count]/F");
+  tree->Branch("track_charge", track_charge, "track_charge[track_count]/F");
+  tree->Branch("track_mass", track_mass, "track_mass[track_count]/F");
+  tree->Branch("track_dxy", track_dxy, "track_dxy[track_count]/F");
+  tree->Branch("track_dxyerr", track_dxyerr, "track_dxyerr[track_count]/F");
+  tree->Branch("track_dz", track_dz, "track_dz[track_count]/F");
+  tree->Branch("track_dzerr", track_dzerr, "track_dzerr[track_count]/F");
+  tree->Branch("track_ID", track_ID, "track_ID[track_count]/I");
+  // electrons from tracks
+  tree->Branch("track_e_pos_count", &track_e_pos_count, "track_e_pos_count/i"); 
+  tree->Branch("track_e_pos_px", track_e_pos_px, "track_e_pos_px[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_py", track_e_pos_py, "track_e_pos_py[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_pz", track_e_pos_pz, "track_e_pos_pz[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_pt", track_e_pos_pt, "track_e_pos_pt[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_eta", track_e_pos_eta, "track_e_pos_eta[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_phi", track_e_pos_phi, "track_e_pos_phi[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_charge", track_e_pos_charge, "track_e_pos_charge[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_mass", track_e_pos_mass, "track_e_pos_mass[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_dxy", track_e_pos_dxy, "track_e_pos_dxy[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_dxyerr", track_e_pos_dxyerr, "track_e_pos_dxyerr[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_dz", track_e_pos_dz, "track_e_pos_dz[track_e_pos_count]/F");
+  tree->Branch("track_e_pos_dzerr", track_e_pos_dzerr, "track_e_pos_dzerr[track_e_pos_count]/F");
+  tree->Branch("track_e_neg_count", &track_e_neg_count, "track_e_neg_count/i"); 
+  tree->Branch("track_e_neg_px", track_e_neg_px, "track_e_pos_px[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_py", track_e_neg_py, "track_e_pos_py[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_pz", track_e_neg_pz, "track_e_pos_pz[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_pt", track_e_neg_pt, "track_e_pos_pt[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_eta", track_e_neg_eta, "track_e_pos_eta[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_phi", track_e_neg_phi, "track_e_pos_phi[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_charge", track_e_neg_charge, "track_e_pos_charge[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_mass", track_e_neg_mass, "track_e_pos_mass[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_dxy", track_e_neg_dxy, "track_e_pos_dxy[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_dxyerr", track_e_neg_dxyerr, "track_e_pos_dxyerr[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_dz", track_e_neg_dz, "track_e_pos_dz[track_e_neg_count]/F");
+  tree->Branch("track_e_neg_dzerr", track_e_neg_dzerr, "track_e_pos_dzerr[track_e_neg_count]/F");
+  // muons from tracks
+  tree->Branch("track_m_pos_count", &track_m_pos_count, "track_m_pos_count/i"); 
+  tree->Branch("track_m_pos_px", track_m_pos_px, "track_m_pos_px[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_py", track_m_pos_py, "track_m_pos_py[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_pz", track_m_pos_pz, "track_m_pos_pz[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_pt", track_m_pos_pt, "track_m_pos_pt[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_eta", track_m_pos_eta, "track_m_pos_eta[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_phi", track_m_pos_phi, "track_m_pos_phi[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_charge", track_m_pos_charge, "track_m_pos_charge[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_mass", track_m_pos_mass, "track_m_pos_mass[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_dxy", track_m_pos_dxy, "track_m_pos_dxy[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_dxyerr", track_m_pos_dxyerr, "track_m_pos_dxyerr[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_dz", track_m_pos_dz, "track_m_pos_dz[track_m_pos_count]/F");
+  tree->Branch("track_m_pos_dzerr", track_m_pos_dzerr, "track_m_pos_dzerr[track_m_pos_count]/F");
+  tree->Branch("track_m_neg_count", &track_m_neg_count, "track_m_neg_count/i"); 
+  tree->Branch("track_m_neg_px", track_m_neg_px, "track_m_pos_px[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_py", track_m_neg_py, "track_m_pos_py[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_pz", track_m_neg_pz, "track_m_pos_pz[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_pt", track_m_neg_pt, "track_m_pos_pt[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_eta", track_m_neg_eta, "track_m_pos_eta[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_phi", track_m_neg_phi, "track_m_pos_phi[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_charge", track_m_neg_charge, "track_m_pos_charge[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_mass", track_m_neg_mass, "track_m_pos_mass[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_dxy", track_m_neg_dxy, "track_m_pos_dxy[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_dxyerr", track_m_neg_dxyerr, "track_m_pos_dxyerr[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_dz", track_m_neg_dz, "track_m_pos_dz[track_m_neg_count]/F");
+  tree->Branch("track_m_neg_dzerr", track_m_neg_dzerr, "track_m_pos_dzerr[track_m_neg_count]/F");
+  // pions from tracks
+  tree->Branch("track_pi_pos_count", &track_pi_pos_count, "track_pi_pos_count/i"); 
+  tree->Branch("track_pi_pos_px", track_pi_pos_px, "track_pi_pos_px[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_py", track_pi_pos_py, "track_pi_pos_py[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_pz", track_pi_pos_pz, "track_pi_pos_pz[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_pt", track_pi_pos_pt, "track_pi_pos_pt[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_eta", track_pi_pos_eta, "track_pi_pos_eta[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_phi", track_pi_pos_phi, "track_pi_pos_phi[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_charge", track_pi_pos_charge, "track_pi_pos_charge[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_mass", track_pi_pos_mass, "track_pi_pos_mass[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_dxy", track_pi_pos_dxy, "track_pi_pos_dxy[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_dxyerr", track_pi_pos_dxyerr, "track_pi_pos_dxyerr[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_dz", track_pi_pos_dz, "track_pi_pos_dz[track_pi_pos_count]/F");
+  tree->Branch("track_pi_pos_dzerr", track_pi_pos_dzerr, "track_pi_pos_dzerr[track_pi_pos_count]/F");
+  tree->Branch("track_pi_neg_count", &track_pi_neg_count, "track_pi_neg_count/i"); 
+  tree->Branch("track_pi_neg_px", track_pi_neg_px, "track_pi_pos_px[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_py", track_pi_neg_py, "track_pi_pos_py[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_pz", track_pi_neg_pz, "track_pi_pos_pz[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_pt", track_pi_neg_pt, "track_pi_pos_pt[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_eta", track_pi_neg_eta, "track_pi_pos_eta[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_phi", track_pi_neg_phi, "track_pi_pos_phi[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_charge", track_pi_neg_charge, "track_pi_pos_charge[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_mass", track_pi_neg_mass, "track_pi_pos_mass[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_dxy", track_pi_neg_dxy, "track_pi_pos_dxy[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_dxyerr", track_pi_neg_dxyerr, "track_pi_pos_dxyerr[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_dz", track_pi_neg_dz, "track_pi_pos_dz[track_pi_neg_count]/F");
+  tree->Branch("track_pi_neg_dzerr", track_pi_neg_dzerr, "track_pi_pos_dzerr[track_pi_neg_count]/F");
+
+  //tree->Branch("track_muon_count", &track_muon_count, "track_muon_count/i");
+  //tree->Branch("track_pion_count", &track_pion_count, "track_pion_count/i");
+  // tracks(To be added)
+  /*tree->Branch("track_outerx", track_outerx, "track_outerx[track_count]/F");
+  tree->Branch("track_outery", track_outery, "track_outery[track_count]/F");
+  tree->Branch("track_outerz", track_outerz, "track_outerz[track_count]/F");
+  tree->Branch("track_closestpointx", track_closestpointx, "track_closestpointx[track_count]/F");
+  tree->Branch("track_closestpointy", track_closestpointy, "track_closestpointy[track_count]/F");
+  tree->Branch("track_closestpointz", track_closestpointz, "track_closestpointz[track_count]/F");
+  tree->Branch("track_chi2", track_chi2, "track_chi2[track_count]/F");
+  tree->Branch("track_ndof", track_ndof, "track_ndof[track_count]/F");
+    tree->Branch("track_dedxharmonic2", track_dedxharmonic2, "track_dedxharmonic2[track_count]/F");
+  tree->Branch("track_nhits", track_nhits, "track_nhits[track_count]/b");
+  tree->Branch("track_npixelhits", track_npixelhits, "track_npixelhits[track_count]/b");
+  tree->Branch("track_nmissinghits", track_nmissinghits, "track_nmissinghits[track_count]/b");
+  tree->Branch("track_npixellayers", track_npixellayers, "track_npixellayers[track_count]/b");
+  tree->Branch("track_nstriplayers", track_nstriplayers, "track_nstriplayers[track_count]/b");*/
   
   // primary vertex
   tree->Branch("primvertex_count", &primvertex_count, "primvertex_count/i"); 
@@ -224,8 +314,9 @@ void NTupleProducerFromMiniAOD::beginJob(){
   tree->Branch("pfmet_sigxy", &pfmet_sigxy, "pfmet_sigxy/F");
   tree->Branch("pfmet_sigyx", &pfmet_sigyx, "pfmet_sigyx/F");
   tree->Branch("pfmet_sigyy", &pfmet_sigyy, "pfmet_sigyy/F");
-    
-  if (!cdata) {
+  
+  // Electrons
+    if (!cdata) {
     // gen met
     tree->Branch("genmet_ex", &genmet_ex, "genmet_ex/F");
     tree->Branch("genmet_ey", &genmet_ey, "genmet_ey/F");
@@ -546,7 +637,12 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
   genparticles_count = 0;
   errors = 0;
   trigobject_count = 0;
-
+  track_e_pos_count = 0;
+  track_e_neg_count = 0;
+  track_m_pos_count = 0;
+  track_m_neg_count = 0;
+  track_pi_pos_count = 0;
+  track_pi_neg_count = 0;
   bool takeevent = true;
 
   nEvents->Fill(0);
@@ -695,6 +791,10 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
   // muons
   int numberOfMuons = int(AddMuons(iEvent));
   if (numberOfMuons<cMuNum) return;
+
+  // Packed PF Candidates
+  int numberOfTracks = int(AddPackedPFCand(iEvent));
+  if (numberOfTracks<cTrackNum) return;
 
   // pf jets
   int numberOfJets = int(AddPFJets(iEvent,iSetup));
@@ -1041,6 +1141,131 @@ unsigned int NTupleProducerFromMiniAOD::AddMuons(const edm::Event& iEvent)
   return muon_count;
 }//unsigned int NTupleProducerFromMiniAOD::AddMuons
 
+unsigned int NTupleProducerFromMiniAOD::AddPackedPFCand(const edm::Event& iEvent)
+{
+
+  edm::Handle<pat::PackedCandidateCollection> Tracks;
+  iEvent.getByLabel(TrackCollectionTag_, Tracks);
+  if(Tracks.isValid())
+    {
+      for(unsigned i = 0 ; i < Tracks->size() ; i++){
+	if ((*Tracks)[i].pt() < cTrackPtMin) continue;
+	if (fabs(((*Tracks)[i].eta())) > cTrackEtaMax) continue;
+        if (fabs(((*Tracks)[i].charge())) < 0.5) continue;
+       	track_px[track_count] = (*Tracks)[i].px();
+	track_py[track_count] = (*Tracks)[i].py();
+	track_pz[track_count] = (*Tracks)[i].pz();
+	track_pt[track_count] = (*Tracks)[i].pt();
+	track_eta[track_count] = (*Tracks)[i].eta();
+	track_phi[track_count] = (*Tracks)[i].phi();
+	track_charge[track_count] = (*Tracks)[i].charge();
+        track_mass[track_count] = (*Tracks)[i].mass();
+        track_dxy[track_count] = (*Tracks)[i].dxy();
+        track_dz[track_count] = (*Tracks)[i].dz();
+        track_dxyerr[track_count] = (*Tracks)[i].dxyError();
+        track_dzerr[track_count] = (*Tracks)[i].dzError();
+        track_ID[track_count] = (*Tracks)[i].pdgId();
+  	if (track_ID[track_count] == 11){
+         track_e_pos_px[track_e_pos_count] = (*Tracks)[i].px();
+         track_e_pos_py[track_e_pos_count] = (*Tracks)[i].py();
+         track_e_pos_pz[track_e_pos_count] = (*Tracks)[i].pz();
+         track_e_pos_pt[track_e_pos_count] = (*Tracks)[i].pt();
+         track_e_pos_eta[track_e_pos_count] = (*Tracks)[i].eta();
+         track_e_pos_phi[track_e_pos_count] = (*Tracks)[i].phi();
+         track_e_pos_charge[track_e_pos_count] = (*Tracks)[i].charge();
+         track_e_pos_mass[track_e_pos_count] = (*Tracks)[i].mass();
+         track_e_pos_dxy[track_e_pos_count] = (*Tracks)[i].dxy();
+         track_e_pos_dz[track_e_pos_count] = (*Tracks)[i].dz();
+         track_e_pos_dxyerr[track_e_pos_count] = (*Tracks)[i].dxyError();
+         track_e_pos_dzerr[track_e_pos_count] = (*Tracks)[i].dzError();
+         track_e_pos_count++;
+        }
+        else if(track_ID[track_count] == -11){
+         track_e_neg_px[track_e_pos_count] = (*Tracks)[i].px();
+         track_e_neg_py[track_e_pos_count] = (*Tracks)[i].py();
+         track_e_neg_pz[track_e_pos_count] = (*Tracks)[i].pz();
+         track_e_neg_pt[track_e_pos_count] = (*Tracks)[i].pt();
+         track_e_neg_eta[track_e_pos_count] = (*Tracks)[i].eta();
+         track_e_neg_phi[track_e_pos_count] = (*Tracks)[i].phi();
+         track_e_neg_charge[track_e_pos_count] = (*Tracks)[i].charge();
+         track_e_neg_mass[track_e_pos_count] = (*Tracks)[i].mass();
+         track_e_neg_dxy[track_e_pos_count] = (*Tracks)[i].dxy();
+         track_e_neg_dz[track_e_pos_count] = (*Tracks)[i].dz();
+         track_e_neg_dxyerr[track_e_pos_count] = (*Tracks)[i].dxyError();
+         track_e_neg_dzerr[track_e_pos_count] = (*Tracks)[i].dzError();
+         track_e_neg_count++;
+        }
+        else if(track_ID[track_count] == 13){
+         track_m_pos_px[track_m_pos_count] = (*Tracks)[i].px();
+         track_m_pos_py[track_m_pos_count] = (*Tracks)[i].py();
+         track_m_pos_pz[track_m_pos_count] = (*Tracks)[i].pz();
+         track_m_pos_pt[track_m_pos_count] = (*Tracks)[i].pt();
+         track_m_pos_eta[track_m_pos_count] = (*Tracks)[i].eta();
+         track_m_pos_phi[track_m_pos_count] = (*Tracks)[i].phi();
+         track_m_pos_charge[track_m_pos_count] = (*Tracks)[i].charge();
+         track_m_pos_mass[track_m_pos_count] = (*Tracks)[i].mass();
+         track_m_pos_dxy[track_m_pos_count] = (*Tracks)[i].dxy();
+         track_m_pos_dz[track_m_pos_count] = (*Tracks)[i].dz();
+         track_m_pos_dxyerr[track_m_pos_count] = (*Tracks)[i].dxyError();
+         track_m_pos_dzerr[track_m_pos_count] = (*Tracks)[i].dzError();
+         track_m_pos_count++;
+        }
+        else if(track_ID[track_count] == -13){
+         track_m_neg_px[track_m_neg_count] = (*Tracks)[i].px();
+         track_m_neg_py[track_m_neg_count] = (*Tracks)[i].py();
+         track_m_neg_pz[track_m_neg_count] = (*Tracks)[i].pz();
+         track_m_neg_pt[track_m_neg_count] = (*Tracks)[i].pt();
+         track_m_neg_eta[track_m_neg_count] = (*Tracks)[i].eta();
+         track_m_neg_phi[track_m_neg_count] = (*Tracks)[i].phi();
+         track_m_neg_charge[track_m_neg_count] = (*Tracks)[i].charge();
+         track_m_neg_mass[track_m_neg_count] = (*Tracks)[i].mass();
+         track_m_neg_dxy[track_m_neg_count] = (*Tracks)[i].dxy();
+         track_m_neg_dz[track_m_neg_count] = (*Tracks)[i].dz();
+         track_m_neg_dxyerr[track_m_neg_count] = (*Tracks)[i].dxyError();
+         track_m_neg_dzerr[track_m_neg_count] = (*Tracks)[i].dzError();
+         track_m_neg_count++;
+        }
+        else if(track_ID[track_count] == 211){
+         track_pi_pos_px[track_pi_pos_count] = (*Tracks)[i].px();
+         track_pi_pos_py[track_pi_pos_count] = (*Tracks)[i].py();
+         track_pi_pos_pz[track_pi_pos_count] = (*Tracks)[i].pz();
+         track_pi_pos_pt[track_pi_pos_count] = (*Tracks)[i].pt();
+         track_pi_pos_eta[track_pi_pos_count] = (*Tracks)[i].eta();
+         track_pi_pos_phi[track_pi_pos_count] = (*Tracks)[i].phi();
+         track_pi_pos_charge[track_pi_pos_count] = (*Tracks)[i].charge();
+         track_pi_pos_mass[track_pi_pos_count] = (*Tracks)[i].mass();
+         track_pi_pos_dxy[track_pi_pos_count] = (*Tracks)[i].dxy();
+         track_pi_pos_dz[track_pi_pos_count] = (*Tracks)[i].dz();
+         track_pi_pos_dxyerr[track_pi_pos_count] = (*Tracks)[i].dxyError();
+         track_pi_pos_dzerr[track_pi_pos_count] = (*Tracks)[i].dzError();
+         track_pi_pos_count++;
+        }
+        else if(track_ID[track_count] == -211){
+         track_pi_neg_px[track_pi_neg_count] = (*Tracks)[i].px();
+         track_pi_neg_py[track_pi_neg_count] = (*Tracks)[i].py();
+         track_pi_neg_pz[track_pi_neg_count] = (*Tracks)[i].pz();
+         track_pi_neg_pt[track_pi_neg_count] = (*Tracks)[i].pt();
+         track_pi_neg_eta[track_pi_neg_count] = (*Tracks)[i].eta();
+         track_pi_neg_phi[track_pi_neg_count] = (*Tracks)[i].phi();
+         track_pi_neg_charge[track_pi_neg_count] = (*Tracks)[i].charge();
+         track_pi_neg_mass[track_pi_neg_count] = (*Tracks)[i].mass();
+         track_pi_neg_dxy[track_pi_neg_count] = (*Tracks)[i].dxy();
+         track_pi_neg_dz[track_pi_neg_count] = (*Tracks)[i].dz();
+         track_pi_neg_dxyerr[track_pi_neg_count] = (*Tracks)[i].dxyError();
+         track_pi_neg_dzerr[track_pi_neg_count] = (*Tracks)[i].dzError();
+         track_pi_neg_count++;
+        }
+        track_count++;
+	
+	if (track_count==M_trackmaxcount) {
+	  cerr << "number of tracks > M_trackmaxcount. They are missing." << endl; errors |= 1<<1; 
+	  break;
+	}
+					   }
+		
+    }
+  return track_count;
+}
 
 bool NTupleProducerFromMiniAOD::GetL1ExtraTriggerMatch(const l1extra::L1JetParticleCollection* l1jets,  
 						    const l1extra::L1JetParticleCollection* l1taus, 
