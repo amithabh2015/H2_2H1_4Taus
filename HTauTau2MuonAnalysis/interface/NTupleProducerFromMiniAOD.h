@@ -156,6 +156,7 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
 
   bool AddGenParticles(const edm::Event& iEvent);
   unsigned int AddMuons(const edm::Event& iEvent);
+  unsigned int AddPackedPFCand(const edm::Event& iEvent);
   unsigned int AddPFJets(const edm::Event& iEvent, const edm::EventSetup& iSetup);
   unsigned int AddTriggerObjects(const edm::Event& iEvent);
   bool foundCompatibleInnerHits(const reco::HitPattern& hitPatA, const reco::HitPattern& hitPatB);
@@ -270,36 +271,123 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
   Int_t   primvertex_ntracks;
   Float_t primvertex_cov[6];
 
-  // tracks
-  UInt_t track_count;
+  //tracks
+  UInt_t track_count; 
   Float_t track_px[M_trackmaxcount];
   Float_t track_py[M_trackmaxcount];
   Float_t track_pz[M_trackmaxcount];
-  Float_t track_e[M_trackmaxcount];
   Float_t track_pt[M_trackmaxcount];
   Float_t track_eta[M_trackmaxcount];
   Float_t track_phi[M_trackmaxcount];
   Float_t track_mass[M_trackmaxcount];
-  Float_t track_outerx[M_trackmaxcount];
+  Int_t track_charge[M_trackmaxcount];
+  /*Float_t track_outerx[M_trackmaxcount];
   Float_t track_outery[M_trackmaxcount];
   Float_t track_outerz[M_trackmaxcount];
   Float_t track_closestpointx[M_trackmaxcount];
   Float_t track_closestpointy[M_trackmaxcount];
   Float_t track_closestpointz[M_trackmaxcount];
   Float_t track_chi2[M_trackmaxcount];
-  Float_t track_ndof[M_trackmaxcount];
+  Float_t track_ndof[M_trackmaxcount];*/
   Float_t track_dxy[M_trackmaxcount];
   Float_t track_dxyerr[M_trackmaxcount];
   Float_t track_dz[M_trackmaxcount];
   Float_t track_dzerr[M_trackmaxcount];
-  Float_t track_dedxharmonic2[M_trackmaxcount];
+  Int_t track_ID[M_trackmaxcount];
+  /*Float_t track_dedxharmonic2[M_trackmaxcount];
   Int_t track_charge[M_trackmaxcount];
   UChar_t track_nhits[M_trackmaxcount];
   UChar_t track_nmissinghits[M_trackmaxcount];
   UChar_t track_npixelhits[M_trackmaxcount];
   UChar_t track_npixellayers[M_trackmaxcount];
-  UChar_t track_nstriplayers[M_trackmaxcount];
+  UChar_t track_nstriplayers[M_trackmaxcount];*/
+
+  //electrons from tracks
+  UInt_t track_e_pos_count; 
+  Float_t track_e_pos_px[M_trackmaxcount];
+  Float_t track_e_pos_py[M_trackmaxcount];
+  Float_t track_e_pos_pz[M_trackmaxcount];
+  Float_t track_e_pos_pt[M_trackmaxcount];
+  Float_t track_e_pos_eta[M_trackmaxcount];
+  Float_t track_e_pos_phi[M_trackmaxcount];
+  Float_t track_e_pos_mass[M_trackmaxcount];
+  Int_t track_e_pos_charge[M_trackmaxcount];
+  Float_t track_e_pos_dxy[M_trackmaxcount];
+  Float_t track_e_pos_dxyerr[M_trackmaxcount];
+  Float_t track_e_pos_dz[M_trackmaxcount];
+  Float_t track_e_pos_dzerr[M_trackmaxcount];
+  UInt_t track_e_neg_count;
+  Float_t track_e_neg_px[M_trackmaxcount];
+  Float_t track_e_neg_py[M_trackmaxcount];
+  Float_t track_e_neg_pz[M_trackmaxcount];
+  Float_t track_e_neg_pt[M_trackmaxcount];
+  Float_t track_e_neg_eta[M_trackmaxcount];
+  Float_t track_e_neg_phi[M_trackmaxcount];
+  Float_t track_e_neg_mass[M_trackmaxcount];
+  Int_t track_e_neg_charge[M_trackmaxcount];
+  Float_t track_e_neg_dxy[M_trackmaxcount];
+  Float_t track_e_neg_dxyerr[M_trackmaxcount];
+  Float_t track_e_neg_dz[M_trackmaxcount];
+  Float_t track_e_neg_dzerr[M_trackmaxcount];
+ 
+  //muons from tracks
+  UInt_t track_m_pos_count; 
+  Float_t track_m_pos_px[M_trackmaxcount];
+  Float_t track_m_pos_py[M_trackmaxcount];
+  Float_t track_m_pos_pz[M_trackmaxcount];
+  Float_t track_m_pos_pt[M_trackmaxcount];
+  Float_t track_m_pos_eta[M_trackmaxcount];
+  Float_t track_m_pos_phi[M_trackmaxcount];
+  Float_t track_m_pos_mass[M_trackmaxcount];
+  Int_t track_m_pos_charge[M_trackmaxcount];
+  Float_t track_m_pos_dxy[M_trackmaxcount];
+  Float_t track_m_pos_dxyerr[M_trackmaxcount];
+  Float_t track_m_pos_dz[M_trackmaxcount];
+  Float_t track_m_pos_dzerr[M_trackmaxcount];
+  UInt_t track_m_neg_count;
+  Float_t track_m_neg_px[M_trackmaxcount];
+  Float_t track_m_neg_py[M_trackmaxcount];
+  Float_t track_m_neg_pz[M_trackmaxcount];
+  Float_t track_m_neg_pt[M_trackmaxcount];
+  Float_t track_m_neg_eta[M_trackmaxcount];
+  Float_t track_m_neg_phi[M_trackmaxcount];
+  Float_t track_m_neg_mass[M_trackmaxcount];
+  Int_t track_m_neg_charge[M_trackmaxcount];
+  Float_t track_m_neg_dxy[M_trackmaxcount];
+  Float_t track_m_neg_dxyerr[M_trackmaxcount];
+  Float_t track_m_neg_dz[M_trackmaxcount];
+  Float_t track_m_neg_dzerr[M_trackmaxcount];
   
+  //pions from tracks
+  UInt_t track_pi_pos_count; 
+  Float_t track_pi_pos_px[M_trackmaxcount];
+  Float_t track_pi_pos_py[M_trackmaxcount];
+  Float_t track_pi_pos_pz[M_trackmaxcount];
+  Float_t track_pi_pos_pt[M_trackmaxcount];
+  Float_t track_pi_pos_eta[M_trackmaxcount];
+  Float_t track_pi_pos_phi[M_trackmaxcount];
+  Float_t track_pi_pos_mass[M_trackmaxcount];
+  Int_t track_pi_pos_charge[M_trackmaxcount];
+  Float_t track_pi_pos_dxy[M_trackmaxcount];
+  Float_t track_pi_pos_dxyerr[M_trackmaxcount];
+  Float_t track_pi_pos_dz[M_trackmaxcount];
+  Float_t track_pi_pos_dzerr[M_trackmaxcount];
+  UInt_t track_pi_neg_count;
+  Float_t track_pi_neg_px[M_trackmaxcount];
+  Float_t track_pi_neg_py[M_trackmaxcount];
+  Float_t track_pi_neg_pz[M_trackmaxcount];
+  Float_t track_pi_neg_pt[M_trackmaxcount];
+  Float_t track_pi_neg_eta[M_trackmaxcount];
+  Float_t track_pi_neg_phi[M_trackmaxcount];
+  Float_t track_pi_neg_mass[M_trackmaxcount];
+  Int_t track_pi_neg_charge[M_trackmaxcount];
+  Float_t track_pi_neg_dxy[M_trackmaxcount];
+  Float_t track_pi_neg_dxyerr[M_trackmaxcount];
+  Float_t track_pi_neg_dz[M_trackmaxcount];
+  Float_t track_pi_neg_dzerr[M_trackmaxcount];
+
+
+ 
   // muons
   UInt_t muon_count;
   Float_t muon_px[M_muonmaxcount];
@@ -387,7 +475,8 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
   Float_t genmet_ex;
   Float_t genmet_ey;
 
-  //Generator Information
+  // Electrons
+     //Generator Information
   Float_t genweight;
   Float_t genid1;
   Float_t genx1;
