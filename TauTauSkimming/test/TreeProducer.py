@@ -5,16 +5,12 @@ process = cms.Process("TreeProducer")
 process.load('FWCore/MessageService/MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.MessageLogger.cerr.threshold = cms.untracked.string('INFO')
-#process.load('Configuration.StandardSequences.Geometry_cff')
-#process.load('Configuration.Geometry.GeometryIdeal_cff')
-#process.load('Configuration.StandardSequences.MagneticField_cff')
-#process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 
 process.load("Configuration.Geometry.GeometryDB_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
-
-process.GlobalTag.globaltag = cms.string('PHYS14_25_V2::All')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag as customiseGlobalTag
+process.GlobalTag = customiseGlobalTag(process.GlobalTag, globaltag = 'PHYS14_25_V2::All',conditions='TrackerAlignmentExtendedError_2011Realistic_v1_mc,TrackerAlignmentErrorExtendedRcd,frontier://FrontierProd/CMS_CONDITIONS+MuonDTAPEObjectsExtended_v0_mc,DTAlignmentErrorExtendedRcd,frontier://FrontierProd/CMS_CONDITIONS+MuonCSCAPEObjectsExtended_v0_mc,CSCAlignmentErrorExtendedRcd,frontier://FrontierProd/CMS_CONDITIONS+EcalSamplesCorrelation_mc,EcalSamplesCorrelationRcd,frontier://FrontierProd/CMS_CONDITIONS+EcalPulseShapes_mc,EcalPulseShapesRcd,frontier://FrontierProd/CMS_CONDITIONS+EcalPulseCovariances_mc,EcalPulseCovariancesRcd,frontier://FrontierProd/CMS_CONDITIONS')
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(10000)
@@ -22,6 +18,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
+#'file:H2ToH1H1_To4Tau_mH2_125_mH1_8_13TeV_MINIAODSIM_0.root'
 # MINIAOD
 # WJetsToLNu
 #        '/store/mc/Phys14DR/WJetsToLNu_13TeV-madgraph-pythia8-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/02215B44-2D70-E411-90A3-0025905A60B8.root',
@@ -47,8 +44,7 @@ process.source = cms.Source("PoolSource",
 #        '/store/mc/Phys14DR/QCD_Pt-50to80_Tune4C_13TeV_pythia8/MINIAODSIM/PU20bx25_trkalmb_castor_PHYS14_25_V1-v2/00000/24BF07BB-6577-E411-89E4-00259073E3AE.root',
 #        '/store/mc/Phys14DR/QCD_Pt-50to80_Tune4C_13TeV_pythia8/MINIAODSIM/PU20bx25_trkalmb_castor_PHYS14_25_V1-v2/00000/303020BC-6577-E411-A7A7-00259073E516.root'
 
-
-    ),
+),
 ##    dropDescendantsOfDroppedBranches=cms.untracked.bool(False),
 ##    inputCommands=cms.untracked.vstring(
 ##        'keep *',
@@ -148,7 +144,7 @@ SampleName = cms.untracked.string("MC")
 process.p = cms.Path(process.NTupleProducer)
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("output.root")
+                                   fileName = cms.string("My_NTuple.root")
                                    )
 
 #processDumpFile = open('MyRootMaker.dump', 'w')
