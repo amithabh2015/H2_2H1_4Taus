@@ -15,6 +15,7 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenFilterInfo.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
+//#include "TauAnalysis/CandidateTools/interface/candidateAuxFunctions.h"
 
 #include <TString.h>
 
@@ -554,7 +555,7 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
   genparticles_count = 0;
   errors = 0;
   trigobject_count = 0;
-  //bool takeevent = true;
+  bool takeevent = true;
 
   nEvents->Fill(0);
   pv_position = math::XYZPoint(0.,0.,0.);
@@ -748,7 +749,7 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
   // generator info and generated particles 
   if(!cdata)
     {
-      //bool haveGenParticles = AddGenParticles(iEvent);
+      bool haveGenParticles = AddGenParticles(iEvent);
 
       edm::Handle<GenEventInfoProduct> HEPMC;
       iEvent.getByLabel(edm::InputTag("generator"), HEPMC);
@@ -789,7 +790,7 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
     
   
   // trigger objects
-  //int numberOfTriggerObjects = int(AddTriggerObjects(iEvent));
+  int numberOfTriggerObjects = int(AddTriggerObjects(iEvent));
 
   // tracks to be added
 
@@ -950,7 +951,6 @@ bool NTupleProducerFromMiniAOD::AddGenParticles(const edm::Event& iEvent) {
 	      genparticles_status[genparticles_count] = (*GenParticles)[i].status();
 	      genparticles_info[genparticles_count] = info;
 	      genparticles_mother[genparticles_count] = mother;
-              std::cout << "Gen_mother : " << genparticles_mother[genparticles_count] << std::endl;
 	      genparticles_count++;
 	    }
 	} // for(unsigned i = 0 ; i < GenParticles->size() ; i++)
@@ -1077,7 +1077,7 @@ unsigned int NTupleProducerFromMiniAOD::AddPackedPFCand(const edm::Event& iEvent
         track_dxyerr[track_count] = (*Tracks)[i].dxyError();
         track_dzerr[track_count] = (*Tracks)[i].dzError();
         track_ID[track_count] = (*Tracks)[i].pdgId();
-  	track_count++;
+  	        track_count++;
 	
 	if (track_count==M_trackmaxcount) {
 	  cerr << "number of tracks > M_trackmaxcount. They are missing." << endl; errors |= 1<<1; 
@@ -1357,8 +1357,3 @@ unsigned int NTupleProducerFromMiniAOD::AddPFJets(const edm::Event& iEvent, cons
   
   return  pfjet_count;
 }//unsigned int NTupleProducerFromMiniAOD::AddPFJets
-
-
-
-
-
