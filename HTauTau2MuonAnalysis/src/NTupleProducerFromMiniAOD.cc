@@ -554,12 +554,6 @@ void NTupleProducerFromMiniAOD::analyze(const edm::Event& iEvent, const edm::Eve
   genparticles_count = 0;
   errors = 0;
   trigobject_count = 0;
-  track_e_pos_count = 0;
-  track_e_neg_count = 0;
-  track_m_pos_count = 0;
-  track_m_neg_count = 0;
-  track_pi_pos_count = 0;
-  track_pi_neg_count = 0;
   //bool takeevent = true;
 
   nEvents->Fill(0);
