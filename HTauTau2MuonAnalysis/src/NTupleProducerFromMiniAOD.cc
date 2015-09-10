@@ -485,7 +485,7 @@ void NTupleProducerFromMiniAOD::beginRun(const edm::Run& iRun, const edm::EventS
   run_hltnames.clear();
   for (unsigned int i=0; i<cHLTriggerPaths.size(); ++i)
     run_hltnames.push_back(cHLTriggerPaths.at(i));
-	
+   	
   if(muontriggers.size() > 32) throw cms::Exception("NTupleProducerFromMiniAOD") << "Too many muon triggers!" << std::endl;
   if(jettriggers.size() > 32) throw cms::Exception("NTupleProducerFromMiniAOD") << "Too many jet triggers!" << std::endl;
 
@@ -493,7 +493,7 @@ void NTupleProducerFromMiniAOD::beginRun(const edm::Run& iRun, const edm::EventS
   run_hltfilters.clear();
   for (unsigned int i = 0; i<muontriggers.size(); ++i) { 
     run_hltfilters.push_back(muontriggers.at(i).second);
-  }
+}
   for (unsigned int i = 0; i<jettriggers.size(); ++i) {
     run_hltfilters.push_back(jettriggers.at(i).second);
   }
@@ -1016,26 +1016,30 @@ unsigned int NTupleProducerFromMiniAOD::AddMuons(const edm::Event& iEvent)
 	muon_puIso[muon_count] = (*Muons)[i].puChargedHadronIso();
 
 	TrackRef innertrack = (*Muons)[i].innerTrack();
+	TrackRef bestTrack  = (*Muons)[i].muonBestTrack();
+        if (bestTrack.isNonnull()) {
+          muon_dxy[muon_count]    = bestTrack->dxy(pv_position);
+          muon_dz[muon_count]     = bestTrack->dz(pv_position);
+          muon_dxyerr[muon_count]    = bestTrack->dxyError();
+          muon_dzerr[muon_count]     = bestTrack->dzError();
+        }
+        else {
+          muon_dxy[muon_count]    = -9999;
+          muon_dz[muon_count]     = -9999;
+          muon_dxyerr[muon_count]    = -9999;
+          muon_dzerr[muon_count]     = -9999;
+        }
+
 
 	if(innertrack.isNonnull())
 	  {
-	    TransientTrack TTrack = TTrackBuilder->build(innertrack);
-	    TrajectoryStateClosestToPoint TTrackState = TTrack.trajectoryStateClosestToPoint(GlobalPoint(pv_position.x(), pv_position.y(), pv_position.z()));
 	    muon_innerTrack[muon_count] = true;
-	    muon_dxy[muon_count]    = TTrackState.perigeeParameters().transverseImpactParameter();
-	    muon_dxyerr[muon_count] = TTrackState.perigeeError().transverseImpactParameterError();
-	    muon_dz[muon_count]     = TTrackState.perigeeParameters().longitudinalImpactParameter();
-	    muon_dzerr[muon_count]  = TTrackState.perigeeError().longitudinalImpactParameterError();
 	    muon_nPixelHits[muon_count] = innertrack->hitPattern().numberOfValidPixelHits();
 	    muon_nTrackerHits[muon_count] = innertrack->hitPattern().trackerLayersWithMeasurement();
 	  }
 	else 
 	  {
 	    muon_innerTrack[muon_count] = false;
-	    muon_dxy[muon_count] = -9999;
-	    muon_dxyerr[muon_count] = -9999;
-	    muon_dxy[muon_count] = -9999;
-	    muon_dxyerr[muon_count] = -9999;
 	    muon_nPixelHits[muon_count] = 0; 
 	    muon_nTrackerHits[muon_count] = 0;
 	  }
@@ -1132,13 +1136,12 @@ unsigned int NTupleProducerFromMiniAOD::AddTriggerObjects(const edm::Event& iEve
   edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
   iEvent.getByLabel(TriggerObjectCollectionTag_, triggerObjects);
   assert(triggerObjects.isValid());
-  
   for (unsigned int iTO=0; iTO<triggerObjects->size(); ++iTO) {
     vector<string> filterLabels = (*triggerObjects)[iTO].filterLabels();
     bool matchFound = false;
     std::vector<bool> passedFilters; passedFilters.clear();
     std::vector<std::string> matchedFilters; matchedFilters.clear();
-    for (unsigned int n=0; n < run_hltfilters.size(); ++n) {
+     for (unsigned int n=0; n < run_hltfilters.size(); ++n) {
       TString HltFilter(run_hltfilters.at(n));
       bool thisMatched = false;
       for (unsigned int i=0; i < filterLabels.size(); ++i) {
@@ -1173,8 +1176,7 @@ unsigned int NTupleProducerFromMiniAOD::AddTriggerObjects(const edm::Event& iEve
       trigobject_phi[trigobject_count] = (*triggerObjects)[iTO].phi();
       trigobject_count++;
       if (trigobject_count==M_trigobjectmaxcount) {
-	 cerr << "number of trigger objects > M_trigobjectmaxcount. They are missing." << endl; 
-	 errors |= 1<<5; 
+	 cerr << "number of trigger objects > M_trigobjectmaxcount. They are missing." << endl;  errors |= 1<<5; 
 	 break;
       }
     }
@@ -1357,3 +1359,4 @@ unsigned int NTupleProducerFromMiniAOD::AddPFJets(const edm::Event& iEvent, cons
   
   return  pfjet_count;
 }//unsigned int NTupleProducerFromMiniAOD::AddPFJets
+

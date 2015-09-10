@@ -122,8 +122,10 @@
 #include "RecoVertex/AdaptiveVertexFit/interface/AdaptiveVertexFitter.h"
 #include "RecoVertex/KalmanVertexFit/interface/KalmanVertexFitter.h"
 #include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
+//#include "TauAnalysis/CandidateTools/interface/NSVfitStandaloneAlgorithm.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 
+//#include "Muon/MuonAnalysisTools/interface/MuonMVAEstimator.h"
 #include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimator.h"
 
 using namespace std;
@@ -278,7 +280,7 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
   Float_t track_eta[M_trackmaxcount];
   Float_t track_phi[M_trackmaxcount];
   Float_t track_mass[M_trackmaxcount];
-  Int_t track_charge[M_trackmaxcount];
+  Float_t track_charge[M_trackmaxcount];
   /*Float_t track_outerx[M_trackmaxcount];
   Float_t track_outery[M_trackmaxcount];
   Float_t track_outerz[M_trackmaxcount];
@@ -300,6 +302,92 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
   UChar_t track_npixellayers[M_trackmaxcount];
   UChar_t track_nstriplayers[M_trackmaxcount];*/
 
+  //electrons from tracks
+  UInt_t track_e_pos_count; 
+  Float_t track_e_pos_px[M_trackmaxcount];
+  Float_t track_e_pos_py[M_trackmaxcount];
+  Float_t track_e_pos_pz[M_trackmaxcount];
+  Float_t track_e_pos_pt[M_trackmaxcount];
+  Float_t track_e_pos_eta[M_trackmaxcount];
+  Float_t track_e_pos_phi[M_trackmaxcount];
+  Float_t track_e_pos_mass[M_trackmaxcount];
+  Int_t track_e_pos_charge[M_trackmaxcount];
+  Float_t track_e_pos_dxy[M_trackmaxcount];
+  Float_t track_e_pos_dxyerr[M_trackmaxcount];
+  Float_t track_e_pos_dz[M_trackmaxcount];
+  Float_t track_e_pos_dzerr[M_trackmaxcount];
+  UInt_t track_e_neg_count;
+  Float_t track_e_neg_px[M_trackmaxcount];
+  Float_t track_e_neg_py[M_trackmaxcount];
+  Float_t track_e_neg_pz[M_trackmaxcount];
+  Float_t track_e_neg_pt[M_trackmaxcount];
+  Float_t track_e_neg_eta[M_trackmaxcount];
+  Float_t track_e_neg_phi[M_trackmaxcount];
+  Float_t track_e_neg_mass[M_trackmaxcount];
+  Int_t track_e_neg_charge[M_trackmaxcount];
+  Float_t track_e_neg_dxy[M_trackmaxcount];
+  Float_t track_e_neg_dxyerr[M_trackmaxcount];
+  Float_t track_e_neg_dz[M_trackmaxcount];
+  Float_t track_e_neg_dzerr[M_trackmaxcount];
+ 
+  //muons from tracks
+  UInt_t track_m_pos_count; 
+  Float_t track_m_pos_px[M_trackmaxcount];
+  Float_t track_m_pos_py[M_trackmaxcount];
+  Float_t track_m_pos_pz[M_trackmaxcount];
+  Float_t track_m_pos_pt[M_trackmaxcount];
+  Float_t track_m_pos_eta[M_trackmaxcount];
+  Float_t track_m_pos_phi[M_trackmaxcount];
+  Float_t track_m_pos_mass[M_trackmaxcount];
+  Int_t track_m_pos_charge[M_trackmaxcount];
+  Float_t track_m_pos_dxy[M_trackmaxcount];
+  Float_t track_m_pos_dxyerr[M_trackmaxcount];
+  Float_t track_m_pos_dz[M_trackmaxcount];
+  Float_t track_m_pos_dzerr[M_trackmaxcount];
+  UInt_t track_m_neg_count;
+  Float_t track_m_neg_px[M_trackmaxcount];
+  Float_t track_m_neg_py[M_trackmaxcount];
+  Float_t track_m_neg_pz[M_trackmaxcount];
+  Float_t track_m_neg_pt[M_trackmaxcount];
+  Float_t track_m_neg_eta[M_trackmaxcount];
+  Float_t track_m_neg_phi[M_trackmaxcount];
+  Float_t track_m_neg_mass[M_trackmaxcount];
+  Int_t track_m_neg_charge[M_trackmaxcount];
+  Float_t track_m_neg_dxy[M_trackmaxcount];
+  Float_t track_m_neg_dxyerr[M_trackmaxcount];
+  Float_t track_m_neg_dz[M_trackmaxcount];
+  Float_t track_m_neg_dzerr[M_trackmaxcount];
+  
+  //pions from tracks
+  UInt_t track_pi_pos_count; 
+  Float_t track_pi_pos_px[M_trackmaxcount];
+  Float_t track_pi_pos_py[M_trackmaxcount];
+  Float_t track_pi_pos_pz[M_trackmaxcount];
+  Float_t track_pi_pos_pt[M_trackmaxcount];
+  Float_t track_pi_pos_eta[M_trackmaxcount];
+  Float_t track_pi_pos_phi[M_trackmaxcount];
+  Float_t track_pi_pos_mass[M_trackmaxcount];
+  Int_t track_pi_pos_charge[M_trackmaxcount];
+  Float_t track_pi_pos_dxy[M_trackmaxcount];
+  Float_t track_pi_pos_dxyerr[M_trackmaxcount];
+  Float_t track_pi_pos_dz[M_trackmaxcount];
+  Float_t track_pi_pos_dzerr[M_trackmaxcount];
+  UInt_t track_pi_neg_count;
+  Float_t track_pi_neg_px[M_trackmaxcount];
+  Float_t track_pi_neg_py[M_trackmaxcount];
+  Float_t track_pi_neg_pz[M_trackmaxcount];
+  Float_t track_pi_neg_pt[M_trackmaxcount];
+  Float_t track_pi_neg_eta[M_trackmaxcount];
+  Float_t track_pi_neg_phi[M_trackmaxcount];
+  Float_t track_pi_neg_mass[M_trackmaxcount];
+  Int_t track_pi_neg_charge[M_trackmaxcount];
+  Float_t track_pi_neg_dxy[M_trackmaxcount];
+  Float_t track_pi_neg_dxyerr[M_trackmaxcount];
+  Float_t track_pi_neg_dz[M_trackmaxcount];
+  Float_t track_pi_neg_dzerr[M_trackmaxcount];
+
+
+ 
   // muons
   UInt_t muon_count;
   Float_t muon_px[M_muonmaxcount];
@@ -463,4 +551,3 @@ class NTupleProducerFromMiniAOD : public edm::EDAnalyzer{
 DEFINE_FWK_MODULE(NTupleProducerFromMiniAOD);
 
 #endif
-
