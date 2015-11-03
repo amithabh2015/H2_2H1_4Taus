@@ -135,11 +135,11 @@ HLTriggerPaths = cms.untracked.vstring(
 'HLT_Mu45_eta2p1_v',
 'HLT_Mu17_Mu8_v',
 'HLT_Mu17_Mu8_DZ_v',
-'HLT_Mu17_Mu8_SameSign_v'
+'HLT_Mu17_Mu8_SameSign_v',
 'HLT_Mu17_Mu8_SameSign_DZ_v',
 'HLT_IsoMu18_v',
 'HLT_IsoMu20_v',
-'HLT_IsoMu17_eta2p1_v'
+'HLT_IsoMu17_eta2p1_v',
 'HLT_IsoMu24_eta2p1_v'
 ),
 TriggerProcess = cms.untracked.string("HLT"),
@@ -165,14 +165,14 @@ RecMuonHLTriggerMatching = cms.untracked.vstring(
 'HLT_Mu17_Mu8_SameSign_v.*:hltL3pfL1sDoubleMu103p5L1f0L2pf0L3PreFiltered8',
 'HLT_Mu17_Mu8_SameSign_v.*:hltL3fL1sDoubleMu103p5L1f0L2f10OneMuL3Filtered17',
 'HLT_Mu17_Mu8_SameSign_v.*:hltDiMuonGlb17Glb8DzFiltered0p2',
-'HLT_Mu17_Mu8_SameSign_v.*:hltDiMuonGlb17Glb8DzFiltered0p2SameSign' 
+'HLT_Mu17_Mu8_SameSign_v.*:hltDiMuonGlb17Glb8DzFiltered0p2SameSign', 
 'HLT_Mu17_Mu8_SameSign_DZ_v.*:hltL3pfL1sDoubleMu103p5L1f0L2pf0L3PreFiltered8',
 'HLT_Mu17_Mu8_SameSign_DZ_v.*:hltL3fL1sDoubleMu103p5L1f0L2f10OneMuL3Filtered17',
 'HLT_Mu17_Mu8_SameSign_DZ_v.*:hltDiMuonGlb17Glb8DzFiltered0p2',
 'HLT_Mu17_Mu8_SameSign_DZ_v.*:hltDiMuonGlb17Glb8DzFiltered0p2SameSign',
 'HLT_IsoMu18_v.*:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09',
 'HLT_IsoMu20_v.*:hltL3crIsoL1sMu16L1f0L2f10QL3f20QL3trkIsoFiltered0p09',
-'HLT_IsoMu17_eta2p1_v.*:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09'
+'HLT_IsoMu17_eta2p1_v.*:hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09',
 'HLT_IsoMu24_eta2p1_v.*:hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09'
 ),
 RecMuonNum = cms.untracked.int32(0),
