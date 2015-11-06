@@ -23,6 +23,7 @@
 #include "TString.h"
 #include "H2to2H1to4Taus/HTauTau2MuonAnalysis/interface/Config.h"
 #include "H2to2H1to4Taus/HTauTau2MuonAnalysis/src/Config.cc"
+//#include "H2_2H1_4Taus/HTauTau2MuonAnalysis/interface/Config.h"
 
 #include "TRandom.h"
 using namespace std;
@@ -185,7 +186,8 @@ int main(int argc, char * argv[]) {
   //unsigned int iLeadingPosTrig = 0;
   //vector<bool> trigobject_filter; trigobject_filter.clear();
 
-  //  std::map<std::string, int> * hltriggerresults = new std::map<std::string, int>() ;
+  std::map<std::string, int> * hltriggerresults = new std::map<std::string, int>() ;
+  std::map<std::string, int> * hltriggerprescales = new std::map<std::string, int>() ;
   std::vector<std::string>   * hltfilters = new std::vector<std::string>();
 
   std::string rootFileName(argv[2]);
@@ -219,6 +221,8 @@ int main(int argc, char * argv[]) {
   TH1F * dimuonMassH = new TH1F("dimuonMassH","",500,0,500);
   TH1F * nTracksLeadingMuH = new TH1F("nTracksLeadingMuH","",21,-0.5,20.5);
   TH1F * nTracksTrailingMuH = new TH1F("nTracksTrailingMuH","",21,-0.5,20.5);
+  TH1F * nSigTracksLeadingMuH = new TH1F("nSigTracksLeadingMuH","",21,-0.5,20.5);
+  TH1F * nSigTracksTrailingMuH = new TH1F("nSigTracksTrailingMuH","",21,-0.5,20.5);
 
   TH1F * ptTrackLeadingMuH = new TH1F("ptTrackLeadingMuH","",100,0,100);
   TH1F * etaTrackLeadingMuH = new TH1F("etaTrackLeadingMuH","",50,-2.5,2.5);
@@ -261,9 +265,32 @@ int main(int argc, char * argv[]) {
   TH1F * counter_TightTrkptReqH=new TH1F("counter_TightTrkptReqH","",1,0.,2.);         
   TH1F * counter_FinalEventsH=new TH1F("counter_FinalEventsH","",1,0.,2.);         
 
-   // Tracks
-  //  TH1F * ptTrackLeadingMuH = new TH1F("ptTrack1H","",50,0,100);
-  //  TH1F * ptTrackTrailingMuH = new TH1F("ptTrack2H","",50,0,100);   
+   // Background studies
+  TH1F * InvMassN23leadingH = new TH1F("InvMassN23leadingH","",10,0.,10.);
+  TH1F * InvMassN23trailingH = new TH1F("InvMassN23trailingH","",10,0.,10.);
+  TH1F * InvMassN23H = new TH1F("InvMassN23H","",10,0.,10.);
+
+  TH1F * InvMassHardestNtrk23leadingH = new TH1F("InvMassHardestNtrk23leadingH","",10,0.,10.);
+  TH1F * InvMassHardestNtrk23trailingH = new TH1F("InvMassHardestNtrk23trailingH","",10,0.,10.);
+  TH1F * InvMassHardestNtrk23H = new TH1F("InvMassHardestNtrk23H","",10,0.,10.);
+
+  TH1F * InvMassSoftestNtrk23leadingH = new TH1F("InvMassSoftestNtrk23leadingH","",10,0.,10.);
+  TH1F * InvMassSoftestNtrk23trailingH = new TH1F("InvMassSoftestNtrk23trailingH","",10,0.,10.);
+  TH1F * InvMassSoftestNtrk23H = new TH1F("InvMassSoftestNtrk23H","",10,0.,10.);
+
+  TH1F * InvMassHardestNtrk1leadingH = new TH1F("InvMassHardestNtrk1leadingH","",10,0.,10.);
+  TH1F * InvMassHardestNtrk1trailingH = new TH1F("InvMassHardestNtrk1trailingH","",10,0.,10.);
+  TH1F * InvMassHardestNtrk1H = new TH1F("InvMassHardestNtrk1H","",10,0.,10.);
+
+  TH1F * InvMassSoftestNtrk1leadingH = new TH1F("InvMassSoftestNtrk1leadingH","",10,0.,10.);
+  TH1F * InvMassSoftestNtrk1trailingH = new TH1F("InvMassSoftestNtrk1trailingH","",10,0.,10.);
+  TH1F * InvMassSoftestNtrk1H = new TH1F("InvMassSoftestNtrk1H","",10,0.,10.);
+
+  TH1F * InvMassLeadingH = new TH1F("InvMassLeadingH","",10,0.,10.);
+  TH1F * InvMassTrailingH = new TH1F("InvMassTrailingH","",10,0.,10.);
+  TH1F * InvMassH = new TH1F("InvMassH","",10,0.,10.);
+  TH2F * InvMass2DH = new TH2F("InvMass2DH","",10,0.,10.,10,0.,10.);
+
    
   TString filen;
   int iFiles = 0;
@@ -340,8 +367,8 @@ int main(int argc, char * argv[]) {
    //   tree_->SetBranchAddress("run_hltnames", &run_hltnames);
    tree_->SetBranchAddress("run_hltfilters",&hltfilters);
    //   tree_->SetBranchAddress("run_btagdiscriminators", &run_btagdiscriminators);
-   //   tree_->SetBranchAddress("hltriggerresults",&hltriggerresults);
-   //     tree_->SetBranchAddress("hltriggerprescales",&hltriggerprescales_);
+   tree_->SetBranchAddress("hltriggerresults",&hltriggerresults);
+   tree_->SetBranchAddress("hltriggerprescales",&hltriggerprescales);
    //     tree_->SetBranchAddress("hltriggerresultsV", &hltriggerresultsV_);
    
    int numberOfCandidates = tree_->GetEntries();
@@ -368,6 +395,18 @@ int main(int argc, char * argv[]) {
      //       }
      //     }
      //     if (!isDimuonTrigger) continue;
+
+     //     unsigned int ntrig = hltriggerresults->size();
+     //     std::cout << "ntrig = " << ntrig << std::endl;
+     //     for (std::map<string,int>::iterator it=hltriggerresults->begin(); it!=hltriggerresults->end(); ++it) 
+       //       std::cout << it->first << "  :  "  << it->second << std::endl;
+       //     std::cout << std::endl;
+
+     //     unsigned int npres = hltriggerprescales->size();
+     //     std::cout << "npres = " << npres << std::endl;
+     //     for (std::map<string,int>::iterator it=hltriggerprescales->begin(); it!=hltriggerprescales->end(); ++it) 
+     //       std::cout << it->first << "  :  "  << it->second << std::endl;
+     //     std::cout << std::endl;
      
      // finding HLT filters in the HLT Filter library
      unsigned int nMu8Leg   = 0;
@@ -378,6 +417,7 @@ int main(int argc, char * argv[]) {
      bool isDZFilter = false;
      unsigned int nfilters = hltfilters->size();
      for (unsigned int i=0; i<nfilters; ++i) {
+       //       std::cout << hltfilters->at(i) << std::endl;
        TString HLTFilter(hltfilters->at(i));
        if (HLTFilter==MuonHighPtFilterName) {
 	 nMu17Leg = i;
@@ -405,6 +445,7 @@ int main(int argc, char * argv[]) {
 	cout << "Filter " << DiMuonDzFilterName << " not found " << endl;
 	exit(-1);
       }
+      //      std::cout << std::endl;
 
       muonCountH->Fill(float(muon_count),weight);
 
@@ -522,9 +563,21 @@ int main(int argc, char * argv[]) {
       counter_MuonKinematicsH->Fill(1.);	                
 
       // counting tracks around each muon
-      std::vector<unsigned int> trkLeadingMu; trkLeadingMu.clear();
-      std::vector<unsigned int> trkTrailingMu; trkTrailingMu.clear();
-	
+      std::vector<unsigned int> trkLeadingMu; trkLeadingMu.clear(); // all tracks
+      std::vector<unsigned int> trkTrailingMu; trkTrailingMu.clear(); // all tracks
+      std::vector<unsigned int> trkSigLeadingMu; trkSigLeadingMu.clear(); // signal tracks
+      std::vector<unsigned int> trkSigTrailingMu; trkSigTrailingMu.clear(); // signal tracks
+      unsigned int hardestTrkLeading = 0; // index of hardest track around leading mu
+      unsigned int hardestTrkTrailing = 0; // index of hardest track around trailing mu
+      unsigned int softestTrkLeading = 0; // index of softest track around leading mu
+      unsigned int softestTrkTrailing = 0; // index of softest track around trailing mu
+
+      float ptHardestLeading = 0;
+      float ptHardestTrailing = 0;
+      float ptSoftestLeading = 1e+10;
+      float ptSoftestTrailing = 1e+10;
+
+
       for (unsigned int iTrk=0; iTrk<track_count; ++iTrk) {
 	if (fabs(track_charge[iTrk])<0.1) continue; // make sure we are not taking neutral stuff
 	if (fabs(track_dxy[iTrk])>dxyTrkLooseCut) continue;
@@ -540,104 +593,202 @@ int main(int argc, char * argv[]) {
 	TLorentzVector leadingMuDiff = LeadingMuon4 - trk4;
 	if (leadingMuDiff.P()>0.1) { // track is not leading muon
 	  float drTrkMu = deltaR(muon_eta[iLeading],muon_phi[iLeading],
-				 track_eta[iTrk],track_phi[iTrk]);
-	  if (drTrkMu<dRIsoMuon) trkLeadingMu.push_back(iTrk);
+				 track_eta[iTrk],   track_phi[iTrk]);
+          float qTrkLeadingMu = track_charge[iTrk]*muon_charge[iLeading];
+	  if (drTrkMu<dRIsoMuon)
+	    trkLeadingMu.push_back(iTrk);
+	  if (drTrkMu<dRIsoMuon && qTrkLeadingMu<0 && fabs(track_dxy[iTrk])<dxyTrkCut && fabs(track_dz[iTrk])<dzTrkCut && track_pt[iTrk]>ptTrkCut) {
+	    trkSigLeadingMu.push_back(iTrk);
+	    if (track_pt[iTrk]>ptHardestLeading) {
+	      ptHardestLeading = track_pt[iTrk];
+	      hardestTrkLeading = iTrk;
+	    }
+	    if (track_pt[iTrk]<ptSoftestLeading) {
+	      ptSoftestLeading = track_pt[iTrk];
+	      softestTrkLeading = iTrk;
+	    }
+	  }
 	}
- 
 
 	TLorentzVector trailingMuDiff = TrailingMuon4 - trk4;
 	if (trailingMuDiff.P()>0.1) { // track is not trailing muon
 	  float drTrkMu = deltaR(muon_eta[iTrailing],muon_phi[iTrailing],
-                                 track_eta[iTrk],track_phi[iTrk]);
-          if (drTrkMu<dRIsoMuon) trkTrailingMu.push_back(iTrk);
+                track_eta[iTrk],track_phi[iTrk]);
+          float qTrkTrailingMu = track_charge[iTrk]*muon_charge[iTrailing];         
+	  if (drTrkMu<dRIsoMuon)
+            trkTrailingMu.push_back(iTrk);
+	  if (drTrkMu<dRIsoMuon && qTrkTrailingMu<0 && fabs(track_dxy[iTrk])<dxyTrkCut && fabs(track_dz[iTrk])<dzTrkCut && track_pt[iTrk]>ptTrkCut) {
+	    trkSigTrailingMu.push_back(iTrk);
+	    if (track_pt[iTrk]>ptHardestTrailing) {
+	      ptHardestTrailing = track_pt[iTrk];
+	      hardestTrkTrailing = iTrk;
+	    }
+	    if (track_pt[iTrk]<ptSoftestTrailing) {
+	      ptSoftestTrailing = track_pt[iTrk];
+	      softestTrkTrailing = iTrk;
+	    }
+	    
+	  }
 	}
 
       }
-
+      
       nTracksLeadingMuH->Fill(float(trkLeadingMu.size()),weight);
       nTracksTrailingMuH->Fill(float(trkTrailingMu.size()),weight);
+      nSigTracksLeadingMuH->Fill(float(trkSigLeadingMu.size()),weight);
+      nSigTracksTrailingMuH->Fill(float(trkSigTrailingMu.size()),weight);
+
+      // defining sidebands and signal region
+
+      // sideband N23
+      bool isN23leading  = (trkLeadingMu.size()==1&&trkSigLeadingMu.size()==1) && (trkTrailingMu.size()==2||trkTrailingMu.size()==3);
+      bool isN23trailing = (trkTrailingMu.size()==1&&trkSigTrailingMu.size()==1) && (trkLeadingMu.size()==2||trkLeadingMu.size()==3); 
+
+      // sidebands Ntrk23
+      bool isNtrk23leading  = trkSigLeadingMu.size()>0 && (trkTrailingMu.size()==2||trkTrailingMu.size()==3);
+      bool isNtrk23trailing = trkSigTrailingMu.size()>0 && (trkLeadingMu.size()==2||trkLeadingMu.size()==3);
+
+      // sidebands Ntrk1
+      bool isNtrk1leading  = trkSigLeadingMu.size()>0 && (trkSigTrailingMu.size()==1||trkTrailingMu.size()==1);
+      bool isNtrk1trailing = trkSigTrailingMu.size()>0 && (trkSigLeadingMu.size()==1||trkLeadingMu.size()==1);
+
+      // signal region
+      bool signalRegion = (trkLeadingMu.size()==1&&trkSigLeadingMu.size()==1) && (trkSigTrailingMu.size()==1&&trkTrailingMu.size()==1);
+      
       counter_nTracksH->Fill(1.);	                
 
-      // track selection
-      if (trkLeadingMu.size()!=1) continue;
-      if (trkTrailingMu.size()!=1) continue;
-      counter_OneTrackOnlyH->Fill(1.);	     
+      // sidebands N23
+      if (isN23leading) {
+	int iTrk = trkSigLeadingMu[0];
+	TLorentzVector Track4; Track4.SetXYZM(track_px[iTrk],
+					      track_py[iTrk],
+					      track_pz[iTrk],
+					      track_mass[iTrk]);
+	TLorentzVector TrackPlusMuon4 = LeadingMuon4 + Track4;
+	float mass = TrackPlusMuon4.M();
+	InvMassN23leadingH->Fill(mass,weight);
+	InvMassN23H->Fill(mass,weight);
+      }      
+      if (isN23trailing) {
+	int iTrk = trkSigTrailingMu[0];
+	TLorentzVector Track4; Track4.SetXYZM(track_px[iTrk],
+					      track_py[iTrk],
+					      track_pz[iTrk],
+					      track_mass[iTrk]);
+	TLorentzVector TrackPlusMuon4 = TrailingMuon4 + Track4;
+	float mass = TrackPlusMuon4.M();
+	InvMassN23trailingH->Fill(mass,weight);
+	InvMassN23H->Fill(mass,weight);
+      }      
 
-      unsigned int indxTrkLeadingMu = trkLeadingMu[0];
-      unsigned int indxTrkTrailingMu = trkTrailingMu[0];
+      // sidebands Ntrk23
+      if (isNtrk23leading) {
+	TLorentzVector HardestTrack4; HardestTrack4.SetXYZM(track_px[hardestTrkLeading],
+							    track_py[hardestTrkLeading],
+							    track_pz[hardestTrkLeading],
+							    track_mass[hardestTrkLeading]);
+	TLorentzVector HardestTrackPlusMuon4 = LeadingMuon4 + HardestTrack4;
+	float mass = HardestTrackPlusMuon4.M();
+	InvMassHardestNtrk23leadingH->Fill(mass,weight);
+	InvMassHardestNtrk23H->Fill(mass,weight);
+	TLorentzVector SoftestTrack4; SoftestTrack4.SetXYZM(track_px[softestTrkLeading],
+							    track_py[softestTrkLeading],
+							    track_pz[softestTrkLeading],
+							    track_mass[softestTrkLeading]);
+	TLorentzVector SoftestTrackPlusMuon4 = LeadingMuon4 + SoftestTrack4;
+	mass = SoftestTrackPlusMuon4.M();
+	InvMassSoftestNtrk23leadingH->Fill(mass,weight);
+	InvMassSoftestNtrk23H->Fill(mass,weight);
+      }      
+      if (isNtrk23trailing) {
+	TLorentzVector HardestTrack4; HardestTrack4.SetXYZM(track_px[hardestTrkTrailing],
+							    track_py[hardestTrkTrailing],
+							    track_pz[hardestTrkTrailing],
+							    track_mass[hardestTrkTrailing]);
+	TLorentzVector HardestTrackPlusMuon4 = TrailingMuon4 + HardestTrack4;
+	float mass = HardestTrackPlusMuon4.M();
+	InvMassHardestNtrk23trailingH->Fill(mass,weight);
+	InvMassHardestNtrk23H->Fill(mass,weight);
+	TLorentzVector SoftestTrack4; SoftestTrack4.SetXYZM(track_px[softestTrkTrailing],
+							    track_py[softestTrkTrailing],
+							    track_pz[softestTrkTrailing],
+							    track_mass[softestTrkTrailing]);
+	TLorentzVector SoftestTrackPlusMuon4 = TrailingMuon4 + SoftestTrack4;
+	mass = SoftestTrackPlusMuon4.M();
+	InvMassSoftestNtrk23trailingH->Fill(mass,weight);
+	InvMassSoftestNtrk23H->Fill(mass,weight);
+      }      
 
-      // require q(trk)*q(muon) < 0;
-      float qTrkLeadingMu = track_charge[indxTrkLeadingMu]*muon_charge[iLeading];
-      if (qTrkLeadingMu>0) continue;
-      counter_ChargeReqLeadMuonTrkH->Fill(1.);	                
-      float qTrkTrailingMu = track_charge[indxTrkTrailingMu]*muon_charge[iTrailing];
-      if (qTrkTrailingMu>0) continue;
-      counter_ChargeReqTrailMuonTrkH->Fill(1.);	                
-
-
-      // filling intermediate histograms
-      //
-      ptTrackLeadingMuH->Fill(track_pt[indxTrkLeadingMu],weight);
-      etaTrackLeadingMuH->Fill(track_eta[indxTrkLeadingMu],weight);
-      dxyTrackLeadingMuH->Fill(track_dxy[indxTrkLeadingMu],weight);
-      dzTrackLeadingMuH->Fill(track_dz[indxTrkLeadingMu],weight);
-      //
-      ptTrackTrailingMuH->Fill(track_pt[indxTrkTrailingMu],weight);
-      etaTrackTrailingMuH->Fill(track_eta[indxTrkTrailingMu],weight);
-      dxyTrackTrailingMuH->Fill(track_dxy[indxTrkTrailingMu],weight);
-      dzTrackTrailingMuH->Fill(track_dz[indxTrkTrailingMu],weight);
-
-      // cuts on ip
-      if (fabs(track_dxy[indxTrkLeadingMu])>dxyTrkCut) continue;
-      if (fabs(track_dz[indxTrkLeadingMu])>dzTrkCut) continue;
-      if (fabs(track_dxy[indxTrkTrailingMu])>dxyTrkCut) continue;
-      if (fabs(track_dz[indxTrkTrailingMu])>dzTrkCut) continue;
-         counter_TightTrkIPReqH->Fill(1.);	     
-
-      // cuts on pt 
-      if (track_pt[indxTrkLeadingMu]<ptTrkCut) continue;
-      if (track_pt[indxTrkTrailingMu]<ptTrkCut) continue;
-         counter_TightTrkptReqH->Fill(1.);	     
-      TLorentzVector TrkLeading4; TrkLeading4.SetXYZM(track_px[indxTrkLeadingMu],
-						      track_py[indxTrkLeadingMu],
-						      track_pz[indxTrkLeadingMu],
-						      track_mass[indxTrkLeadingMu]);
+      // sidebands Ntrk1
+      if (isNtrk1leading) {
+	TLorentzVector HardestTrack4; HardestTrack4.SetXYZM(track_px[hardestTrkLeading],
+							    track_py[hardestTrkLeading],
+							    track_pz[hardestTrkLeading],
+							    track_mass[hardestTrkLeading]);
+	TLorentzVector HardestTrackPlusMuon4 = LeadingMuon4 + HardestTrack4;
+	float mass = HardestTrackPlusMuon4.M();
+	InvMassHardestNtrk1leadingH->Fill(mass,weight);
+	InvMassHardestNtrk1H->Fill(mass,weight);
+	TLorentzVector SoftestTrack4; SoftestTrack4.SetXYZM(track_px[softestTrkLeading],
+							    track_py[softestTrkLeading],
+							    track_pz[softestTrkLeading],
+							    track_mass[softestTrkLeading]);
+	TLorentzVector SoftestTrackPlusMuon4 = LeadingMuon4 + SoftestTrack4;
+	mass = SoftestTrackPlusMuon4.M();
+	InvMassSoftestNtrk1leadingH->Fill(mass,weight);
+	InvMassSoftestNtrk1H->Fill(mass,weight);
+      }      
+      if (isNtrk1trailing) {
+	TLorentzVector HardestTrack4; HardestTrack4.SetXYZM(track_px[hardestTrkTrailing],
+							    track_py[hardestTrkTrailing],
+							    track_pz[hardestTrkTrailing],
+							    track_mass[hardestTrkTrailing]);
+	TLorentzVector HardestTrackPlusMuon4 = TrailingMuon4 + HardestTrack4;
+	float mass = HardestTrackPlusMuon4.M();
+	InvMassHardestNtrk1trailingH->Fill(mass,weight);
+	InvMassHardestNtrk1H->Fill(mass,weight);
+	TLorentzVector SoftestTrack4; SoftestTrack4.SetXYZM(track_px[softestTrkTrailing],
+							    track_py[softestTrkTrailing],
+							    track_pz[softestTrkTrailing],
+							    track_mass[softestTrkTrailing]);
+	TLorentzVector SoftestTrackPlusMuon4 = TrailingMuon4 + SoftestTrack4;
+	mass = SoftestTrackPlusMuon4.M();
+	InvMassSoftestNtrk1trailingH->Fill(mass,weight);
+	InvMassSoftestNtrk1H->Fill(mass,weight);
+      }      
       
-      TLorentzVector TrkTrailing4; TrkTrailing4.SetXYZM(track_px[indxTrkTrailingMu],
-							track_py[indxTrkTrailingMu],
-							track_pz[indxTrkTrailingMu],
-							track_mass[indxTrkTrailingMu]);
+      // signal region
+      if (signalRegion) {
+	counter_FinalEventsH->Fill(1.,weight);
+	int iTrkLeading = trkSigTrailingMu[0];
+	TLorentzVector TrackLeading4; TrackLeading4.SetXYZM(track_px[iTrkLeading],
+                                                            track_py[iTrkLeading],
+                                                            track_pz[iTrkLeading],
+                                                            track_mass[iTrkLeading]);
+	TLorentzVector MuonTrackLeading4 = LeadingMuon4 + TrackLeading4;
+	float massTrkMuLeading = MuonTrackLeading4.M();
 
-      TLorentzVector TwoMuonsTwoTrack4 = LeadingMuon4 + TrkLeading4 + TrailingMuon4 + TrkTrailing4;
-      TLorentzVector TrkLeadingMuon4 = LeadingMuon4 + TrkLeading4;
-      TLorentzVector TrkTrailingMuon4 = TrailingMuon4 + TrkTrailing4;
+	int iTrkTrailing = trkSigTrailingMu[0];
+        TLorentzVector TrackTrailing4; TrackTrailing4.SetXYZM(track_px[iTrkTrailing],
+                                                            track_py[iTrkTrailing],
+                                                            track_pz[iTrkTrailing],
+                                                            track_mass[iTrkTrailing]);
+        TLorentzVector MuonTrackTrailing4 = TrailingMuon4 + TrackTrailing4;
+	float massTrkMuTrailing = MuonTrackTrailing4.M();
 
+	InvMassLeadingH->Fill(massTrkMuLeading,weight);
+	InvMassTrailingH->Fill(massTrkMuTrailing,weight);
+	InvMassH->Fill(massTrkMuLeading,weight);
+	InvMassH->Fill(massTrkMuTrailing,weight);
+	InvMass2DH->Fill(massTrkMuLeading,massTrkMuTrailing,weight);
+      }
 
-      float invMass2Mu2Trk = TwoMuonsTwoTrack4.M();
-      float massTrkLeadingMu = TrkLeadingMuon4.M();
-      float massTrkTrailingMu = TrkTrailingMuon4.M();
-
-      // filling histograms after final selection
-      ptLeadingMuSelH->Fill(LeadingMuon4.Pt(),weight);
-      ptTrailingMuSelH->Fill(TrailingMuon4.Pt(),weight);
-      etaLeadingMuSelH->Fill(LeadingMuon4.Eta(),weight);
-      etaTrailingMuSelH->Fill(TrailingMuon4.Eta(),weight);
-      dimuonMassSelH->Fill(dimuonMass,weight);
-      invMass2Mu2TrkSelH->Fill(invMass2Mu2Trk,weight);
-      massLeadingMuTrkH->Fill(massTrkLeadingMu,weight);
-      massTrailingMuTrkH->Fill(massTrkTrailingMu,weight);
-      massMuTrkH->Fill(massTrkLeadingMu,weight);
-      massMuTrkH->Fill(massTrkTrailingMu,weight);
-      m1m2SelH->Fill(massTrkLeadingMu,massTrkTrailingMu,weight);
-      m1m2SelH->Fill(massTrkTrailingMu,massTrkLeadingMu,weight);
-
-      counter_FinalEventsH->Fill(1.);	     
    }
-
 
    delete tree_;
    file_->Close();
    delete file_;
+
   }
 
   file->cd("");
@@ -648,4 +799,5 @@ int main(int argc, char * argv[]) {
 } 
 
  
+
 
