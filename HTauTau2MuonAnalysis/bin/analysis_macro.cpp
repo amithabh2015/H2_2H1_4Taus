@@ -649,8 +649,8 @@ int main(int argc, char * argv[]) {
       bool isNtrk23trailing = trkSigTrailingMu.size()>0 && (trkLeadingMu.size()==2||trkLeadingMu.size()==3);
 
       // sidebands Ntrk1
-      bool isNtrk1leading  = trkSigLeadingMu.size()>0 && (trkSigTrailingMu.size()==1||trkTrailingMu.size()==1);
-      bool isNtrk1trailing = trkSigTrailingMu.size()>0 && (trkSigLeadingMu.size()==1||trkLeadingMu.size()==1);
+      bool isNtrk1leading  = trkSigLeadingMu.size()>0 && trkTrailingMu.size()==1;
+      bool isNtrk1trailing = trkSigTrailingMu.size()>0 && trkLeadingMu.size()==1;
 
       // signal region
       bool signalRegion = (trkLeadingMu.size()==1&&trkSigLeadingMu.size()==1) && (trkSigTrailingMu.size()==1&&trkTrailingMu.size()==1);
